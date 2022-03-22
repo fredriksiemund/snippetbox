@@ -2,18 +2,17 @@ package main
 
 import (
 	"html/template"
-	"net/url"
 	"path/filepath"
 	"time"
 
+	"fredriksiemund/snippetbox/pkg/forms"
 	"fredriksiemund/snippetbox/pkg/models"
 )
 
 type templateData struct {
-	FormData   url.Values
-	FormErrors map[string]string
-	Snippet    *models.Snippet
-	Snippets   []*models.Snippet
+	Form     *forms.Form
+	Snippet  *models.Snippet
+	Snippets []*models.Snippet
 }
 
 func humanDate(t time.Time) string {
