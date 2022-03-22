@@ -10,9 +10,11 @@ import (
 )
 
 type templateData struct {
-	Form     *forms.Form
-	Snippet  *models.Snippet
-	Snippets []*models.Snippet
+	CurrentYear int
+	Flash       string
+	Form        *forms.Form
+	Snippet     *models.Snippet
+	Snippets    []*models.Snippet
 }
 
 func humanDate(t time.Time) string {
