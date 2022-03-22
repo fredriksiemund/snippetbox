@@ -7,16 +7,19 @@ import (
 	"log"
 	"net/http"
 	"os"
-
-	_ "github.com/go-sql-driver/mysql"
+	"time"
 
 	"fredriksiemund/snippetbox/pkg/models/mysql"
+
+	_ "github.com/go-sql-driver/mysql"
+	"github.com/golangcollege/sessions"
 )
 
 // The application struct containing all of our dependencies
 type application struct {
 	errorLog      *log.Logger
 	infoLog       *log.Logger
+	session       *sessions.Session
 	snippets      *mysql.SnippetRepository
 	templateCache map[string]*template.Template
 }
@@ -25,6 +28,7 @@ func main() {
 	// Parsing the runtime configuration settings for the application
 	addr := flag.String("addr", ":4000", "HTTP network address")
 	connStr := flag.String("connStr", "web:password@/snippetbox?parseTime=true", "MySQL connection string")
+	secret := flag.String("secret", "s6Ndh+pPbnzHbS*+9Pk8qGWhTzbpa@ge", "Session cookies secret key")
 
 	flag.Parse()
 
@@ -42,10 +46,17 @@ func main() {
 		errorLog.Fatal(err)
 	}
 
+	// Use the sessions.New() function to initialize a new session manager,
+	// passing in the secret key as the parameter. Then we configure it so
+	// sessions always expires after 12 hours.
+	session := sessions.New([]byte(*secret))
+	session.Lifetime = 12 * time.Hour
+
 	// Establishing the dependencies for the handlers (depenency injection)
 	app := &application{
 		errorLog:      errorLog,
 		infoLog:       infoLog,
+		session:       session,
 		snippets:      &mysql.SnippetRepository{DB: db},
 		templateCache: templateCache,
 	}
