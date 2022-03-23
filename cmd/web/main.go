@@ -21,8 +21,9 @@ type application struct {
 	errorLog      *log.Logger
 	infoLog       *log.Logger
 	session       *sessions.Session
-	snippets      *mysql.SnippetRepository
 	templateCache map[string]*template.Template
+	snippets      *mysql.SnippetRepository
+	users         *mysql.UserModel
 }
 
 func main() {
@@ -59,8 +60,9 @@ func main() {
 		errorLog:      errorLog,
 		infoLog:       infoLog,
 		session:       session,
-		snippets:      &mysql.SnippetRepository{DB: db},
 		templateCache: templateCache,
+		snippets:      &mysql.SnippetRepository{DB: db},
+		users:         &mysql.UserModel{DB: db},
 	}
 
 	// Initialize a tls.Config struct to hold the non-default TLS settings we want
