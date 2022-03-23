@@ -1,0 +1,7 @@
+{
+  "name": "snippetbox",
+  "devDependencies": {
+    "prettier": "^2.6.0",
+    "prettier-plugin-go-template": "0.0.11"
+  }
+}
