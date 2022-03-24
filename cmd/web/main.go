@@ -16,6 +16,10 @@ import (
 	"github.com/golangcollege/sessions"
 )
 
+type contextKey string
+
+const contextKeyIsAuthenticated = contextKey("isAuthenticated")
+
 // The application struct containing all of our dependencies
 type application struct {
 	errorLog      *log.Logger
